@@ -178,7 +178,9 @@ No requirements.
 
 ## Providers
 
-No providers.
+| Name | Version |
+|------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
 
 ## Modules
 
@@ -186,11 +188,33 @@ No modules.
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [aws_amplify_app.pike](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/amplify_app) | resource |
 
 ## Inputs
 
-No inputs.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_app"></a> [app](#input\_app) | n/a | <pre>object({<br>    name                  = string<br>    repository            = string<br>    build_spec            = string<br>    environment_variables = map(string)<br>  })</pre> | <pre>{<br>  "build_spec": "version: 0.1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - yarn install
+    build:
+      commands:
+        - yarn run build
+  artifacts:
+    baseDirectory: build
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+",<br>  "environment_variables": {<br>    "ENV": "test"<br>  },<br>  "name": "pike",<br>  "repository": "https://github.com/hortonworks/simple-yarn-app"<br>}</pre> | no |
+| <a name="input_custom_rules"></a> [custom\_rules](#input\_custom\_rules) | n/a | <pre>list(object({<br>    source = string<br>    status = string<br>    target = string<br>  }))</pre> | <pre>[<br>  {<br>    "source": "/<*>",<br>    "status": "404",<br>    "target": "/index.html"<br>  }<br>]</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | n/a | yes |
 
 ## Outputs
 

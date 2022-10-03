@@ -1,8 +1,6 @@
 module "example" {
   source = "../../"
-  tags={
-    pike="permissions"
+  tags = {
+    pike = "permissions"
   }
 }
-
-
