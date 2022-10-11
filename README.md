@@ -50,35 +50,35 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_mq_broker.broker](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/mq_broker) | resource |
-| [aws_mq_configuration.broker](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/mq_configuration) | resource |
-| [aws_security_group.broker](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
+| [aws_amplify_app.pike](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/amplify_app) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_audit"></a> [audit](#input\_audit) | To enable audit logging | `bool` | `"false"` | no |
-| <a name="input_common_tags"></a> [common\_tags](#input\_common\_tags) | This is to help you add tags to your cloud objects | `map(any)` | n/a | yes |
-| <a name="input_ingress"></a> [ingress](#input\_ingress) | n/a | `list(any)` | n/a | yes |
-| <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | n/a | `any` | n/a | yes |
-| <a name="input_maintenance_window_start_time"></a> [maintenance\_window\_start\_time](#input\_maintenance\_window\_start\_time) | Describe the Maintenance window block | `map(any)` | <pre>{<br>  "day_of_week": "MONDAY",<br>  "time_of_day": "12:05",<br>  "time_zone": "GMT"<br>}</pre> | no |
-| <a name="input_mq_broker"></a> [mq\_broker](#input\_mq\_broker) | MQ broker details | `map(any)` | n/a | yes |
-| <a name="input_my_config"></a> [my\_config](#input\_my\_config) | MQ Config | `map(any)` | n/a | yes |
-| <a name="input_password"></a> [password](#input\_password) | n/a | `string` | n/a | yes |
-| <a name="input_security_group_name"></a> [security\_group\_name](#input\_security\_group\_name) | Broker Security group name | `string` | `"Broker"` | no |
-| <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | Contains subnet ids | `list(any)` | n/a | yes |
-| <a name="input_username"></a> [username](#input\_username) | n/a | `string` | `"ExampleUser"` | no |
-| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The VPC id | `string` | n/a | yes |
+| <a name="input_app"></a> [app](#input\_app) | n/a | <pre>object({<br>    name                  = string<br>    repository            = string<br>    build_spec            = string<br>    environment_variables = map(string)<br>  })</pre> | <pre>{<br>  "build_spec": "version: 0.1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - yarn install
+    build:
+      commands:
+        - yarn run build
+  artifacts:
+    baseDirectory: build
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+",<br>  "environment_variables": {<br>    "ENV": "test"<br>  },<br>  "name": "pike",<br>  "repository": "https://github.com/hortonworks/simple-yarn-app"<br>}</pre> | no |
+| <a name="input_custom_rules"></a> [custom\_rules](#input\_custom\_rules) | n/a | <pre>list(object({<br>    source = string<br>    status = string<br>    target = string<br>  }))</pre> | <pre>[<br>  {<br>    "source": "/<*>",<br>    "status": "404",<br>    "target": "/index.html"<br>  }<br>]</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | n/a | yes |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_broker"></a> [broker](#output\_broker) | The Broker details |
-| <a name="output_configuration"></a> [configuration](#output\_configuration) | The broker configuration |
-| <a name="output_mq_password"></a> [mq\_password](#output\_mq\_password) | MQ password |
-| <a name="output_mq_username"></a> [mq\_username](#output\_mq\_username) | MQ Username |
+No outputs.
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Policy
