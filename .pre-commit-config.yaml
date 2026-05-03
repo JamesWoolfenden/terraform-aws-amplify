@@ -47,4 +47,3 @@ repos:
       - id: checkov
         verbose: true
         entry: checkov -d example/examplea --external-checks-dir checkov --download-external-modules true
-

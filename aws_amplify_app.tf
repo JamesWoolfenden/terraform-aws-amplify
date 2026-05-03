@@ -16,7 +16,6 @@ resource "aws_amplify_app" "pike" {
   environment_variables = var.app.environment_variables
   tags                  = var.tags
 }
-
 variable "app" {
   type = object({
     name                  = string
@@ -50,7 +49,6 @@ variable "app" {
     repository = "https://github.com/hortonworks/simple-yarn-app"
   }
 }
-
 variable "custom_rules" {
   type = list(object({
     source = string
