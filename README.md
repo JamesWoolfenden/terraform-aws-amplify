@@ -101,57 +101,51 @@ resource "aws_iam_policy" "terraform_pike" {
             "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": [
-                "ec2:AuthorizeSecurityGroupEgress",
-                "ec2:AuthorizeSecurityGroupIngress",
-                "ec2:CreateNetworkInterface",
-                "ec2:CreateNetworkInterfacePermission",
-                "ec2:CreateSecurityGroup",
-                "ec2:CreateTags",
-                "ec2:DeleteNetworkInterface",
-                "ec2:DeleteNetworkInterfacePermission",
-                "ec2:DeleteSecurityGroup",
-                "ec2:DeleteTags",
-                "ec2:DescribeAccountAttributes",
-                "ec2:DescribeInternetGateways",
-                "ec2:DescribeNetworkInterfaces",
-                "ec2:DescribeSecurityGroups",
-                "ec2:DescribeSubnets",
-                "ec2:DescribeVpcs",
-                "ec2:DetachNetworkInterface",
-                "ec2:RevokeSecurityGroupEgress",
-                "ec2:RevokeSecurityGroupIngress"
+                "amplify:CreateApp",
+                "amplify:DeleteApp",
+                "amplify:GetApp",
+                "amplify:ListTagsForResource",
+                "amplify:TagResource",
+                "amplify:UntagResource",
+                "amplify:UpdateApp"
             ],
-            "Resource": "*"
+            "Resource": [
+                "*"
+            ]
         },
         {
             "Sid": "VisualEditor1",
             "Effect": "Allow",
             "Action": [
-                "kms:CreateGrant"
+                "codecommit:GetRepository",
+                "codecommit:GetRepositoryTriggers",
+                "codecommit:PutRepositoryTriggers"
             ],
-            "Resource": "*"
+            "Resource": [
+                "*"
+            ]
         },
         {
             "Sid": "VisualEditor2",
             "Effect": "Allow",
             "Action": [
-                "mq:CreateBroker",
-                "mq:CreateConfiguration",
-                "mq:CreateTags",
-                "mq:CreateUser",
-                "mq:DeleteBroker",
-                "mq:DeleteTags",
-                "mq:DeleteUser",
-                "mq:DescribeBroker",
-                "mq:DescribeConfiguration",
-                "mq:DescribeConfigurationRevision",
-                "mq:DescribeUser",
-                "mq:RebootBroker",
-                "mq:UpdateBroker",
-                "mq:UpdateConfiguration",
-                "mq:UpdateUser"
+                "iam:PassRole"
             ],
-            "Resource": "*"
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor3",
+            "Effect": "Allow",
+            "Action": [
+                "sns:CreateTopic",
+                "sns:Subscribe",
+                "sns:Unsubscribe"
+            ],
+            "Resource": [
+                "*"
+            ]
         }
     ]
 })
