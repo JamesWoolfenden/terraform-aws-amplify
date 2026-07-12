@@ -72,6 +72,7 @@ frontend:
       - node_modules/**/*
 ",<br/>  "name": "pike",<br/>  "repository": "https://github.com/hortonworks/simple-yarn-app"<br/>}</pre> | no |
 | <a name="input_custom_headers"></a> [custom\_headers](#input\_custom\_headers) | Custom HTTP response headers (Amplify customHeaders YAML) applied to every response, e.g. CSP, HSTS, X-Frame-Options. | `string` | `"customHeaders:
+
   - pattern: '**'
     headers:
       - key: 'Strict-Transport-Security'
