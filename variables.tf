@@ -86,7 +86,7 @@ variable "custom_rules" {
   }]
 
   validation {
-    condition = alltrue([for r in var.custom_rules : length(r.source) > 0 && length(r.target) > 0 && length(regexall("^\\d{3}$", r.status)) > 0])
+    condition     = alltrue([for r in var.custom_rules : length(r.source) > 0 && length(r.target) > 0 && length(regexall("^\\d{3}$", r.status)) > 0])
     error_message = "Each custom_rules entry must have non-empty source and target and status must be a 3-digit string (e.g. \"200\", \"301\", \"404\")."
   }
 }
