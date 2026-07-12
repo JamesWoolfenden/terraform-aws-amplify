@@ -6,6 +6,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: gha_workflow.verify.yml
+  cancel-in-progress: true
+
 permissions:
   id-token: write
   contents: write

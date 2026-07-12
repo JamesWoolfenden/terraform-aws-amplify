@@ -1,0 +1,12 @@
+id: HLD_PROPOSED_001
+name: Amplify app should configure custom security response headers
+principle: governance
+severity: MEDIUM
+rationale: |
+  AWS Amplify Hosting does not inject any security response headers by default. Without a custom_headers configuration, deployed sites are served without Content-Security-Policy, X-Frame-Options, X-Content-Type-Options, or Strict-Transport-Security, leaving them exposed to clickjacking, MIME-sniffing, and reduced XSS mitigation. This is easy to overlook because the app deploys and functions normally without it.
+remediation: |
+  Add a custom_headers block to the aws_amplify_app resource defining at minimum X-Frame-Options, X-Content-Type-Options, Strict-Transport-Security, and a Content-Security-Policy appropriate to the app.
+resources:
+  aws_amplify_app:
+    path: custom_headers
+    not_null: true

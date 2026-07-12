@@ -1,0 +1,36 @@
+{
+  "findings": [
+    {
+      "id": "HOLDEN_AI_001",
+      "principle": "governance",
+      "severity": "MEDIUM",
+      "confidence": "medium",
+      "title": "aws_amplify_app never sets custom_headers, leaving hosted sites without baseline security response headers",
+      "file": "aws_amplify_app.tf",
+      "line": 1,
+      "resource": "aws_amplify_app.pike",
+      "related_resources": ["var.app"],
+      "explanation": "aws_amplify_app supports a custom_headers attribute for injecting CSP, X-Frame-Options, X-Content-Type-Options and Strict-Transport-Security into every response, but this module neither sets it nor exposes it as a variable. Deterministic engines have no rule for this resource type at all (it is absent from coverage_by_type), so the gap is invisible to holden's rule set. Every site deployed through this reusable module inherits Amplify Hosting's default of no security response headers, exposing consumers to clickjacking and content-sniffing risks unless they fork the module to add them.",
+      "remediation": "Add a `custom_headers` variable (default to a sane baseline: X-Frame-Options: SAMEORIGIN, X-Content-Type-Options: nosniff, Strict-Transport-Security, and a CSP) and wire it into the `aws_amplify_app.pike` resource so consumers get secure headers by default and can override per app."
+    },
+    {
+      "id": "HOLDEN_AI_002",
+      "principle": "data-protection",
+      "severity": "LOW",
+      "confidence": "low",
+      "title": "environment_variables is a plain, non-sensitive map(string) with no guidance away from storing secrets in it",
+      "file": "variables.tf",
+      "line": 7,
+      "resource": "aws_amplify_app.pike",
+      "related_resources": ["var.app"],
+      "explanation": "The `app` variable's `environment_variables` field (variables.tf:7, wired to aws_amplify_app.tf:16) is typed map(string) with no `sensitive = true` and no documented alternative. AWS Amplify Hosting has no built-in secret manager for these values — anything placed here is stored in plaintext in Terraform state, in `terraform plan` output/CI logs, and is readable in the Amplify console by anyone with app read access. Because the module's own default already sets an env var (`ENV = \"test\"`), it establishes environment_variables as the expected place to pass build-time config, which invites consumers to also drop real secrets (API keys, tokens) there rather than referencing SSM Parameter Store from the buildspec.",
+      "remediation": "Mark the `environment_variables` field (or the whole `app` variable) `sensitive = true`, and document/recommend referencing AWS SSM Parameter Store or Secrets Manager from `build_spec` commands instead of passing secrets through environment_variables directly."
+    }
+  ],
+  "suggested_policies": [
+    {
+      "rationale": "aws_amplify_app has zero deterministic coverage in holden today (absent from coverage_by_type entirely). custom_headers is a well-defined, unambiguous attribute path: either the app defines response security headers or it relies entirely on Amplify Hosting's insecure default of none. This is a concrete, broadly applicable attribute check, not an intent/context judgment, so it fits the existing not_null DSL cleanly.",
+      "yaml": "id: HLD_PROPOSED_001\nname: Amplify app should configure custom security response headers\nprinciple: governance\nseverity: MEDIUM\nrationale: |\n  AWS Amplify Hosting does not inject any security response headers by default. Without a custom_headers configuration, deployed sites are served without Content-Security-Policy, X-Frame-Options, X-Content-Type-Options, or Strict-Transport-Security, leaving them exposed to clickjacking, MIME-sniffing, and reduced XSS mitigation. This is easy to overlook because the app deploys and functions normally without it.\nremediation: |\n  Add a custom_headers block to the aws_amplify_app resource defining at minimum X-Frame-Options, X-Content-Type-Options, Strict-Transport-Security, and a Content-Security-Policy appropriate to the app.\nresources:\n  aws_amplify_app:\n    path: custom_headers\n    not_null: true\n"
+    }
+  ]
+}
